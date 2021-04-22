@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
+using TMPro;
 
 /// <summary>
 /// This class is applied to a button that represents an Item in the View. It is a visual representation of the item
@@ -24,6 +25,14 @@ public class GridViewItemContainer : MonoBehaviour, IItemContainer
     //Link to the infomation panel (set in prefab)
     [SerializeField]
     private GameObject infoPanel;
+    [SerializeField]
+    private TextMeshProUGUI name;
+    [SerializeField]
+    private TextMeshProUGUI category;
+    [SerializeField]
+    private TextMeshProUGUI money;
+    [SerializeField]
+    private TextMeshProUGUI atributes;
 
     [SerializeField]
     private Image icon;
@@ -55,6 +64,27 @@ public class GridViewItemContainer : MonoBehaviour, IItemContainer
 
         if (sprite != null) {
             icon.sprite = sprite;
+        }
+
+        name.text = item.name;
+        money.text = item.price.ToString();
+        switch (item.type)
+        {
+            case TypeOfItem.Armor:
+                category.text = "Armor";
+                ArmorItem a = item as ArmorItem;
+                atributes.text = "Defence " + a.ElementalDamageReduction;
+                break;
+            case TypeOfItem.Weapon:
+                WeaponItem w = item as WeaponItem;
+                atributes.text = "Block damage " + w.DamageReducedWhenBock;
+                category.text = "Weapon";
+                break;
+            case TypeOfItem.Potion:
+                PotionItem p = item as PotionItem;
+                atributes.text = "Health " + p.HealthChange;
+                category.text = "Potion";
+                break;
         }
     }
 }

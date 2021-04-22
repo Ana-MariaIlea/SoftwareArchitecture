@@ -31,4 +31,6 @@ public class ArmorItem : MyItem, IUpgradeable, IArmorItem
         this.elementalDamageReduction += 10;
         this.staminIncrease += 10;
     }
+
+
 }

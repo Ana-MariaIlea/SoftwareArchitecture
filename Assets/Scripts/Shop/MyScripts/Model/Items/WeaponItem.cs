@@ -32,4 +32,5 @@ public class WeaponItem : MyItem, IUpgradeable, IWeaponItem
         this.elementalAttack += 15;
         this.damageReducedWhenBock += 5;
     }
+
 }
