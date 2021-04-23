@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemFactory
+public class ItemFactory:ItemAbstractFactory
 {
     int chanceForArmor=30;
     int chanceForWeapon=60;
 
     public ItemFactory() { }
-    public MyItem MakeItem()
+    public override MyItem MakeItem()
     {
         int chance = Random.Range(1, 100);
         if (chance < chanceForArmor)
