@@ -6,7 +6,9 @@ public enum EventType
 {
     BUY,
     SELL,
-    UPGRADE
+    UPGRADE,
+    INITIALIZESHOPINV,
+    INITIALIZEPLAYERINV
 }
 public class EventData 
 {
