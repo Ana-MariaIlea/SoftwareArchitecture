@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class EventQueue : MonoBehaviour
 {
+    public static EventQueue eventQueue;
 
     public delegate void EventHandler(EventData eventData);
     private Dictionary<EventType, EventHandler> subscriberDictionary= new Dictionary<EventType, EventHandler>();
     private List<EventData> eventList=new List<EventData>();
 
+
+    private void Awake()
+    {
+        if (eventQueue == null)
+            eventQueue = this;
+    }
     // Update is called once per frame
     void Update()
     {

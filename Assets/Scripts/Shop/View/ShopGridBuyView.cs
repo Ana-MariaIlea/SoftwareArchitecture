@@ -79,7 +79,7 @@ public class ShopGridBuyView : MonoBehaviour
     }
 
     //------------------------------------------------------------------------------------------------------------------------
-    //                                                  PopulateItems()
+    //                                                  PopulateItemsByType()
     //------------------------------------------------------------------------------------------------------------------------        
     //Adds one icon for each item in the shop
     private void PopulateItemIconViewByType(TypeOfItem typeOfItem)
@@ -136,7 +136,7 @@ public class ShopGridBuyView : MonoBehaviour
 
     private void Update()
     {
-        RepopulateItemIconView();//Repopulate the view each frame, this is very inefficient and won't work in many scenarios and SHOULD NOT be in
+       // RepopulateItemIconView();//Repopulate the view each frame, this is very inefficient and won't work in many scenarios and SHOULD NOT be in
                                  //the final implementation, the view should be modified by the models via an observer or event queue pattern
 
         //Switch between mouse and keyboard controllers
