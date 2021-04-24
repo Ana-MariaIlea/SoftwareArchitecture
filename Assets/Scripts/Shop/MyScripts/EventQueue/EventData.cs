@@ -9,8 +9,8 @@ public enum EventType
     SELL,
     UPGRADESTART,
     UPGRADEEND,
-    INITIALIZESHOPINV,
-    INITIALIZEPLAYERINV
+    LOADSHOPINV,
+    LOADPLAYERINV
 }
 public class EventData 
 {
