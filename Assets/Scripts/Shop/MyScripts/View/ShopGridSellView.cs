@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ShopGridSellView : ShopGridView
 {
-    private void Awake()
+    private void Start()
     {
-        base.Awake();
         EventQueue.eventQueue.Subscribe(EventType.LOADPLAYERINV, OnShowInvetory);
+        base.Start();
+        
     }
 
 

@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
         EventQueue.eventQueue.Subscribe(EventType.BUYSTART, OnItemBuyBegin);
         EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnAddItemToInventory);
         EventQueue.eventQueue.Subscribe(EventType.SELL, OnItemSold);
+        for (int i = 0; i < shopModel.myInventory.GetItemCount(); i++)
+        {
+            Debug.Log("Player inventory, index " + i + " " +shopModel.myInventory.GetItemByIndex(i).type);
+        }
     }
 
     public void ChangeMoneyAmount(int amount)

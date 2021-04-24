@@ -8,10 +8,11 @@ using TMPro;
 public class ShopGridBuyView : ShopGridView
 { 
 
-    private void Awake()
+    private void Start()
     {
-        base.Awake();
         EventQueue.eventQueue.Subscribe(EventType.LOADSHOPINV, OnShowInvetory);
+        base.Start();
+        
     }
 
 

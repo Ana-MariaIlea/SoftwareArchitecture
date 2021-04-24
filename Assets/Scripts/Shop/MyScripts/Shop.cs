@@ -15,6 +15,10 @@ public class Shop : MonoBehaviour
         EventQueue.eventQueue.AddEvent(new LoadShopInventory(shopModel));
         EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnRemoveItemFromInventory);
         EventQueue.eventQueue.Subscribe(EventType.SELL, OnAddItemFromInventory);
+        for (int i = 0; i < shopModel.myInventory.GetItemCount(); i++)
+        {
+            Debug.Log("Shop inventory, index "+i+" " + shopModel.myInventory.GetItemByIndex(i).type);
+        }
     }
 
     public void OnRemoveItemFromInventory(EventData eventData)

@@ -28,13 +28,9 @@ public abstract class ShopGridView : MonoBehaviour
     [HideInInspector]
     public ShopController shopController; //Controller in MVC pattern
 
-    protected void Awake()
+    protected void Start()
     {
-       // EventQueue.eventQueue.Subscribe(EventType.LOADSHOPINV, OnShowInvetory);
         EventQueue.eventQueue.Subscribe(EventType.GRIDSCREENCHANGE, ScreenChange);
-    }
-    private void Start()
-    {
         shopModel = new BuyModel(2f, 16, 500); //Right now use magic values to set up the shop
         shopController = gameObject.AddComponent<MouseController>().Initialize(shopModel);//Set the default controller to be the mouse controller
         viewConfig = Resources.Load<ViewConfig>("ViewConfig");//Load the ViewConfig scriptable object from the Resources folder
