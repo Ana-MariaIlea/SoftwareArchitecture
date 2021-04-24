@@ -11,6 +11,7 @@ public enum EventType
     UPGRADEEND,
     LOADSHOPINV,
     LOADPLAYERINV,
+    LOADPLAYERUPGRADEINVENTORY,
     GRIDSCREENCHANGE
 }
 public class EventData 

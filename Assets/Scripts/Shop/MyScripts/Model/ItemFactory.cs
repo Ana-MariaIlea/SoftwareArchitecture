@@ -15,12 +15,14 @@ public class ItemFactory:ItemAbstractFactory
         {
             ArmorItem newItem = new ArmorItem("armour", "items_" + Random.Range(106, 109), TypeOfItem.Armor, 100);
             newItem.SetArmorStats(100, 80, 20);
+            newItem.SetUpgradePrice(50);
             return newItem;
         }
         else if (chance < chanceForWeapon)
         {
             WeaponItem newItem = new WeaponItem("Weapon", "items_" + Random.Range(73, 81), TypeOfItem.Weapon, 80);
             newItem.SetWeaponStats(80, 60, 20);
+            newItem.SetUpgradePrice(30);
             return newItem;
         }
         else

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PotionItem : MyItem, IUpgradeable, IPotionItem
+public class PotionItem : MyItem, IPotionItem
 {
     int healthChange;
     int staminaChange;
@@ -24,14 +24,5 @@ public class PotionItem : MyItem, IUpgradeable, IPotionItem
         this.staminaChange = stamina;
         this.effectTime = time;
     }
-
-    public void Upgrade()
-    {
-        this.healthChange += 15;
-        this.staminaChange += 10;
-        this.effectTime += 5;
-    }
-
-
 
 }

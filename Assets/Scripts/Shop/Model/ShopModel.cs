@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public abstract class ShopModel
 {
     //public Inventory inventory { get; } // Getter of the inventory, the views might need this to set up the display.
-    public MyInventory myInventory { get; } // Getter of the inventory, the views might need this to set up the display.
+    public MyInventory myInventory { get; set; } // Getter of the inventory, the views might need this to set up the display.
     protected float priceModifier; //Modifies the item's price based on its base price
     protected int selectedItemIndex = 0; //selected item index
 
@@ -86,6 +86,11 @@ public abstract class ShopModel
     public int GetSelectedItemIndex()
     {
         return selectedItemIndex;
+    }
+
+    public void ReplaceInventory(MyInventory inv)
+    {
+        myInventory = inv;
     }
 
     //------------------------------------------------------------------------------------------------------------------------
