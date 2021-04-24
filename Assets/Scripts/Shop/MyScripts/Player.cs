@@ -12,10 +12,11 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shopModel = new BuyModel(2f, 16, 500); //Right now use magic values to set up the shop
+        shopModel = new SellModel(2f, 16, 500); //Right now use magic values to set up the shop
         EventQueue.eventQueue.AddEvent(new LoadPlayerInventory(shopModel));
         EventQueue.eventQueue.Subscribe(EventType.BUYSTART, OnItemBuyBegin);
         EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnAddItemToInventory);
+        EventQueue.eventQueue.Subscribe(EventType.SELL, OnItemSold);
     }
 
     public void ChangeMoneyAmount(int amount)
@@ -45,6 +46,15 @@ public class Player : MonoBehaviour
         shopModel.myInventory.AddItem(e.item);
         ChangeMoneyAmount(-e.price);
         Debug.Log("Item added "+ e.item.name);
+
+    }
+
+    public void OnItemSold(EventData eventData)
+    {
+        SellEventData e = eventData as SellEventData;
+        shopModel.myInventory.AddItem(e.item);
+        ChangeMoneyAmount(e.price);
+        Debug.Log("Item sold " + e.item.name);
 
     }
 }
