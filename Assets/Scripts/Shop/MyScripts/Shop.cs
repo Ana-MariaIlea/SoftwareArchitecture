@@ -9,9 +9,9 @@ public class Shop : MonoBehaviour
     private ShopModel shopModel; //Model in MVC pattern
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        shopModel = new BuyModel(2f, 16, 500); //Right now use magic values to set up the shop
+        shopModel = new BuyModel(2f, 7, 500); //Right now use magic values to set up the shop
         EventQueue.eventQueue.AddEvent(new LoadShopInventory(shopModel));
         EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnRemoveItemFromInventory);
         EventQueue.eventQueue.Subscribe(EventType.SELL, OnAddItemFromInventory);

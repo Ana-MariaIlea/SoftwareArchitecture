@@ -14,10 +14,10 @@ public class Player : MonoBehaviour
     private ShopModel shopUpgradeModel; //Model in MVC pattern
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        shopModel = new SellModel(2f, 16, 500); //Right now use magic values to set up the shop
-        shopUpgradeModel = new UpgradeModel(2f, 16, 500); //Right now use magic values to set up the shop
+        shopModel = new SellModel(2f, 5, 500); //Right now use magic values to set up the shop
+        shopUpgradeModel = new UpgradeModel(2f, 5, 500); //Right now use magic values to set up the shop
         shopUpgradeModel.myInventory = shopModel.myInventory;
         EventQueue.eventQueue.AddEvent(new LoadPlayerInventory(shopModel));
         EventQueue.eventQueue.AddEvent(new LoadPlayerUpgradeInventoryEventData(shopUpgradeModel));

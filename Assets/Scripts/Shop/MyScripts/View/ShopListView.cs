@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ShopListBuyView : MonoBehaviour
+public abstract class ShopListView : MonoBehaviour
 {
     public ShopModel ShopModel => shopModel; //A getter to access shopModel.
 
     [SerializeField]
-    private GridLayoutGroup itemLayoutGroup; //Links to a GridLayoutGroup in the Unity scene
+    private VerticalLayoutGroup verticalLayoutGroup;
 
     [SerializeField]
     private GameObject itemPrefab; //A prefab to display an item in the view
@@ -24,39 +24,40 @@ public class ShopListBuyView : MonoBehaviour
                                    //this information can be found in a ViewConfig scriptable object, which serves as a configuration file for
                                    //views.
 
-    private ShopModel shopModel; //Model in MVC pattern
-    private ShopController shopController; //Controller in MVC pattern
+    public ShopModel shopModel; //Model in MVC pattern
+    [HideInInspector]
+    public ShopController shopController; //Controller in MVC pattern
 
-    private void Start()
+
+    protected void Start()
     {
+        EventQueue.eventQueue.Subscribe(EventType.GRIDSCREENCHANGE, ScreenChange);
         shopModel = new BuyModel(2f, 16, 500); //Right now use magic values to set up the shop
         shopController = gameObject.AddComponent<MouseController>().Initialize(shopModel);//Set the default controller to be the mouse controller
         viewConfig = Resources.Load<ViewConfig>("ViewConfig");//Load the ViewConfig scriptable object from the Resources folder
         Debug.Assert(viewConfig != null);
-        SetupItemIconView(); //Setup the grid view's properties
+       // SetupItemIconView(); //Setup the grid view's properties
         PopulateItemIconView(); //Display items
         InitializeButtons(); //Connect the buttons to the controller
 
 
     }
 
-    //------------------------------------------------------------------------------------------------------------------------
-    //                                                  SetupItemIconView()
-    //------------------------------------------------------------------------------------------------------------------------        
-    //Setup the grid view according to the ViewConfig object's requirements, right now it just sets the constraint mode and column count,
-    //you can make cosmetic adjustments to the GridLayoutGroup by adding more configurations to ViewConfig and use them adjusting properties
-    //like cellSize, spacing, padding, etc.
-    private void SetupItemIconView()
-    {
-        itemLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;//Set the constraint mode of the GridLayoutGroup
-        itemLayoutGroup.constraintCount = viewConfig.gridViewColumnCount; //Set the column count according to the ViewConfig object
-    }
+    public abstract void OnShowInvetory(EventData eventData);
+    //{
+    //    LoadShopInventory e = eventData as LoadShopInventory;
+
+    //    shopModel = e.model;
+    //    shopController.Initialize(shopModel);
+    //    RepopulateItemIconView();
+    //}
+
 
     //------------------------------------------------------------------------------------------------------------------------
     //                                                  RepopulateItems()
     //------------------------------------------------------------------------------------------------------------------------        
     //Clears the grid view and repopulates it with new icons (updates the visible icons)
-    private void RepopulateItemIconView()
+    public void RepopulateItemIconView()
     {
         ClearIconView();
         PopulateItemIconView();
@@ -66,7 +67,7 @@ public class ShopListBuyView : MonoBehaviour
     //                                                  PopulateItems()
     //------------------------------------------------------------------------------------------------------------------------        
     //Adds one icon for each item in the shop
-    private void PopulateItemIconView()
+    public void PopulateItemIconView()
     {
         foreach (MyItem item in shopModel.myInventory.GetItems())
         {
@@ -75,15 +76,30 @@ public class ShopListBuyView : MonoBehaviour
     }
 
     //------------------------------------------------------------------------------------------------------------------------
+    //                                                  PopulateItemsByType()
+    //------------------------------------------------------------------------------------------------------------------------        
+    //Adds one icon for each item in the shop
+    public void PopulateItemIconViewByType(TypeOfItem typeOfItem)
+    {
+        foreach (MyItem item in shopModel.myInventory.GetItems())
+        {
+            if (item.type == typeOfItem)
+                AddItemToView(item);
+        }
+    }
+
+
+
+    //------------------------------------------------------------------------------------------------------------------------
     //                                                  ClearIconView()
     //------------------------------------------------------------------------------------------------------------------------        
     //Removes all existing icons in the gridview
-    private void ClearIconView()
+    public void ClearIconView()
     {
-        Transform[] allIcons = itemLayoutGroup.transform.GetComponentsInChildren<Transform>();
+        Transform[] allIcons = verticalLayoutGroup.transform.GetComponentsInChildren<Transform>();
         foreach (Transform child in allIcons)
         {
-            if (child != itemLayoutGroup.transform)
+            if (child != verticalLayoutGroup.transform)
             {
                 Destroy(child.gameObject);
             }
@@ -94,36 +110,48 @@ public class ShopListBuyView : MonoBehaviour
     //                                                  AddItemToView()
     //------------------------------------------------------------------------------------------------------------------------        
     //Adds a new item container to the view, each view can have its way of displaying items
-    private void AddItemToView(MyItem item)
+    public void AddItemToView(MyItem item)
     {
         GameObject newItemIcon = GameObject.Instantiate(itemPrefab);
-        newItemIcon.transform.SetParent(itemLayoutGroup.transform);
+        newItemIcon.transform.SetParent(verticalLayoutGroup.transform);
         newItemIcon.transform.localScale = Vector3.one;//The scale would automatically change in Unity so we set it back to Vector3.one.
 
-        GridViewItemContainer itemContainer = newItemIcon.GetComponent<GridViewItemContainer>();
+        
+        ListViewItemContainer itemContainer = newItemIcon.GetComponent<ListViewItemContainer>();
         Debug.Assert(itemContainer != null);
         bool isSelected = (item == shopModel.GetSelectedItem());
         itemContainer.Initialize(item, isSelected);
     }
+    //------------------------------------------------------------------------------------------------------------------------
+    //                                                  UpdateInfoPannel()
+    //------------------------------------------------------------------------------------------------------------------------ 
+    public void UpdateInfoPannel()
+    {
 
+    }
     //------------------------------------------------------------------------------------------------------------------------
     //                                                  InitializeButtons()
     //------------------------------------------------------------------------------------------------------------------------        
     //This method adds a listener to the 'Buy' button. They are forwarded to the controller. Since this is the confirm button of
     //the buy view, it will just call the controller interface's ConfirmSelectedItem function, the controller will handle the rest.
-    private void InitializeButtons()
+    public void InitializeButtons()
     {
         buyButton.onClick.AddListener(
-            delegate {
+            delegate
+            {
                 shopController.ConfirmSelectedItem();
             }
         );
     }
 
+    public void ScreenChange(EventData eventData)
+    {
+        RepopulateItemIconView();
+    }
     private void Update()
     {
-        RepopulateItemIconView();//Repopulate the view each frame, this is very inefficient and won't work in many scenarios and SHOULD NOT be in
-                                 //the final implementation, the view should be modified by the models via an observer or event queue pattern
+        // RepopulateItemIconView();//Repopulate the view each frame, this is very inefficient and won't work in many scenarios and SHOULD NOT be in
+        //the final implementation, the view should be modified by the models via an observer or event queue pattern
 
         //Switch between mouse and keyboard controllers
         if (Input.GetKeyUp(KeyCode.K))
