@@ -79,6 +79,21 @@ public class ShopGridBuyView : MonoBehaviour
     }
 
     //------------------------------------------------------------------------------------------------------------------------
+    //                                                  PopulateItems()
+    //------------------------------------------------------------------------------------------------------------------------        
+    //Adds one icon for each item in the shop
+    private void PopulateItemIconViewByType(TypeOfItem typeOfItem)
+    {
+        foreach (MyItem item in shopModel.myInventory.GetItems())
+        {
+            if(item.type==typeOfItem)
+            AddItemToView(item);
+        }
+    }
+
+
+
+    //------------------------------------------------------------------------------------------------------------------------
     //                                                  ClearIconView()
     //------------------------------------------------------------------------------------------------------------------------        
     //Removes all existing icons in the gridview

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SellEventData : EventData
+public class UpgradeStartEventData : EventData
 {
     public MyItem item;
     public int price;
-    public SellEventData(MyItem pItem, int pPrice) : base(EventType.SELL)
+    public UpgradeStartEventData(MyItem pItem, int pPrice) : base(EventType.UPGRADESTART)
     {
         item = pItem;
         price = pPrice;

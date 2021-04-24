@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public enum EventType
 {
-    BUY,
+    BUYSTART,
+    BUYEND,
     SELL,
-    UPGRADE,
+    UPGRADESTART,
+    UPGRADEEND,
     INITIALIZESHOPINV,
     INITIALIZEPLAYERINV
 }
