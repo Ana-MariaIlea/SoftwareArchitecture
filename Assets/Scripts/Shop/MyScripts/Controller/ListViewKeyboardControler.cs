@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This class provides a keyboard controller for a ShopModel in a grid view, it defines how to handle keyboard input in HandleInput()
-/// </summary>
-public class GridViewKeyboardController : ShopController
+public class ListViewKeyboardControler : ShopController
 {
-    private ViewConfig viewConfig;//To move the focus up and down, we need to know how many columns the grid view has, in the current setup,
-    private int columnCount;      //this information can be found in a ViewConfig scriptable object, which serves as a configuration file for
-                                  //views.
 
     private int currentItemIndex = 0;//The current item index is changed whenever the focus is moved with keyboard keys
 
@@ -21,9 +15,6 @@ public class GridViewKeyboardController : ShopController
     {
         base.Initialize(pShopModel);//Call base.Initialize to set up the model
         currentItemIndex = model.GetSelectedItemIndex();//Synchronize the current item index with the model
-        viewConfig = Resources.Load<ViewConfig>("ViewConfig");//Load the ViewConfig scriptable object from the Resources folder
-        Debug.Assert(viewConfig != null);
-        columnCount = viewConfig.gridViewColumnCount;//Try to set up the column count, fails silently
         return this;
     }
 
@@ -34,7 +25,7 @@ public class GridViewKeyboardController : ShopController
     public override void HandleInput()
     {
         //Move the focus to the left if possible
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             currentItemIndex--;
             if (currentItemIndex < 0)
@@ -45,29 +36,13 @@ public class GridViewKeyboardController : ShopController
         }
 
         //Move the focus to the right if possible
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             currentItemIndex++;
             if (currentItemIndex >= this.Model.myInventory.GetItemCount())
             {
                 currentItemIndex = this.Model.myInventory.GetItemCount() - 1;
             }
-            EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
-        }
-
-        //Move the focus up if possible
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (currentItemIndex > columnCount - 1)
-                currentItemIndex -= columnCount;
-            EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
-        }
-
-        //Move the focus down if possible
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-;            if (currentItemIndex < this.Model.myInventory.GetItemCount() - columnCount)
-                currentItemIndex += columnCount;
             EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
         }
 

@@ -33,7 +33,7 @@ public abstract class ShopListView : MonoBehaviour
     {
         EventQueue.eventQueue.Subscribe(EventType.GRIDSCREENCHANGE, ScreenChange);
         shopModel = new BuyModel(2f, 16, 500); //Right now use magic values to set up the shop
-        shopController = gameObject.AddComponent<MouseController>().Initialize(shopModel);//Set the default controller to be the mouse controller
+        shopController = gameObject.AddComponent<ListViewKeyboardControler>().Initialize(shopModel);//Set the default controller to be the mouse controller
         viewConfig = Resources.Load<ViewConfig>("ViewConfig");//Load the ViewConfig scriptable object from the Resources folder
         Debug.Assert(viewConfig != null);
        // SetupItemIconView(); //Setup the grid view's properties
@@ -181,7 +181,7 @@ public abstract class ShopListView : MonoBehaviour
     private void SwitchToKeyboardControl()
     {
         Destroy(shopController);//Remove the current controller component
-        shopController = gameObject.AddComponent<GridViewKeyboardController>().Initialize(shopModel);//Create and add a keyboard controller
+        shopController = gameObject.AddComponent<ListViewKeyboardControler>().Initialize(shopModel);//Create and add a keyboard controller
         instructionText.text = "The current control mode is: Keyboard Control, WASD to select item, press K to buy. Press left mouse button to switch to Mouse Control.";
         buyButton.gameObject.SetActive(false);//Hide the buy button because we only use keyboard
     }
