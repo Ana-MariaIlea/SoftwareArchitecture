@@ -18,7 +18,8 @@ public class BuyModel : ShopModel
 
     public override void ConfirmSelectedItem()
     {
-        myInventory.RemoveItemByIndex(selectedItemIndex);
+        EventQueue.eventQueue.AddEvent(new BuyStartEventData(myInventory.GetItemByIndex(selectedItemIndex),myInventory.GetItemByIndex(selectedItemIndex).price));
+       // myInventory.RemoveItemByIndex(selectedItemIndex);
     }
 
 }

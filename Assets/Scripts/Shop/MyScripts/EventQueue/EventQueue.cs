@@ -51,6 +51,7 @@ public class EventQueue : MonoBehaviour
         {
             throw new ArgumentOutOfRangeException("eventData.eventType", "EventType is invalid");
         }
+        eventList.Add(eventData);
     }
 
     public void PublishEvents()
@@ -61,6 +62,7 @@ public class EventQueue : MonoBehaviour
             if (subscriberDictionary.ContainsKey(data.eventType))
             {
                 subscriberDictionary[data.eventType]?.Invoke(data);
+                Debug.Log("Invoke "+ data.eventType);
             }
             else
             {

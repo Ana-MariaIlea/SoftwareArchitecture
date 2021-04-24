@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoadPlayerInventory : EventData
 {
-    ShopModel model;
+    public ShopModel model;
     public LoadPlayerInventory(ShopModel pModel) : base(EventType.LOADPLAYERINV)
     {
         model = pModel;

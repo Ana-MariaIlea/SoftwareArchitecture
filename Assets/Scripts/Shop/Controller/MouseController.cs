@@ -22,6 +22,7 @@ public class MouseController : ShopController, IPointerClickHandler
         {
             SelectItem(itemToSelect);
             itemToSelect = null;//Now that the item was selected, set itemToSelect back to null
+            EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
         }
     }
 
@@ -42,8 +43,8 @@ public class MouseController : ShopController, IPointerClickHandler
         if (itemContainer != null)
         {
             itemToSelect = itemContainer.Itemm;//Use IItemContainer's getter to get the item in the container, assign it to itemToSelect,
-                                              //now it will be selected the next time HandleInput is called
-                                                
+                                               //now it will be selected the next time HandleInput is called
+           // EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());                                    
         }
     }
 }

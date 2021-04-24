@@ -12,11 +12,15 @@ public class Shop : MonoBehaviour
     void Start()
     {
         shopModel = new BuyModel(2f, 16, 500); //Right now use magic values to set up the shop
+        EventQueue.eventQueue.AddEvent(new LoadShopInventory(shopModel));
+        EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnRemoveItemFromInventory);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnRemoveItemFromInventory(EventData eventData)
     {
-        
+        BuyEndEventData e = eventData as BuyEndEventData;
+        shopModel.myInventory.Remove(e.item);
+        Debug.Log("Item added " + e.item.name);
+
     }
 }
