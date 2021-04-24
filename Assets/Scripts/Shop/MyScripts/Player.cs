@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
         EventQueue.eventQueue.Subscribe(EventType.BUYSTART, OnItemBuyBegin);
         EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnAddItemToInventory);
         EventQueue.eventQueue.Subscribe(EventType.SELL, OnItemSold);
+        EventQueue.eventQueue.Subscribe(EventType.UPGRADESTART, OnItemUpgradeStart);
+        EventQueue.eventQueue.Subscribe(EventType.UPGRADEEND, OnItemUpgradeEnd);
 
         for (int i = 0; i < shopModel.myInventory.GetItemCount(); i++)
         {
@@ -86,6 +88,11 @@ public class Player : MonoBehaviour
 
     public void OnItemUpgradeEnd(EventData eventData)
     {
-
+        UpgradeEndEventData e = eventData as UpgradeEndEventData;
+        if(e.item is IUpgradeable)
+        {
+            IUpgradeable u = e.item as IUpgradeable;
+            u.Upgrade();
+        }
     }
 }
