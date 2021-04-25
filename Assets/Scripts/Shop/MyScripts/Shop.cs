@@ -23,17 +23,29 @@ public class Shop : MonoBehaviour
 
     public void OnRemoveItemFromInventory(EventData eventData)
     {
-        BuyEndEventData e = eventData as BuyEndEventData;
-        shopModel.myInventory.Remove(e.item);
-        Debug.Log("Item added " + e.item.name);
-
+        if (eventData is BuyEndEventData)
+        {
+            BuyEndEventData e = eventData as BuyEndEventData;
+            shopModel.myInventory.Remove(e.item);
+            Debug.Log("Item added " + e.item.name);
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not BuyEndEventData");
+        }
     }
 
     public void OnAddItemFromInventory(EventData eventData)
     {
-        SellEventData e = eventData as SellEventData;
-        shopModel.myInventory.AddItem(e.item);
-        Debug.Log("Item sold " + e.item.name);
-
+        if (eventData is SellEventData)
+        {
+            SellEventData e = eventData as SellEventData;
+            shopModel.myInventory.AddItem(e.item);
+            Debug.Log("Item sold " + e.item.name);
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not SellEventData");
+        }
     }
 }

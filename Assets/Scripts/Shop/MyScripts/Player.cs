@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
 
         EventQueue.eventQueue.Subscribe(EventType.BUYSTART, OnItemBuyBegin);
-        EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnAddItemToInventory);
+        EventQueue.eventQueue.Subscribe(EventType.BUYEND, OnItemBuyEnd);
         EventQueue.eventQueue.Subscribe(EventType.SELL, OnItemSold);
         EventQueue.eventQueue.Subscribe(EventType.UPGRADESTART, OnItemUpgradeStart);
         EventQueue.eventQueue.Subscribe(EventType.UPGRADEEND, OnItemUpgradeEnd);
@@ -48,49 +48,82 @@ public class Player : MonoBehaviour
 
     public void OnItemBuyBegin(EventData eventData)
     {
-        BuyStartEventData e = eventData as BuyStartEventData;
-        if (HasEnoughMoney(e.price))
+        if (eventData is BuyStartEventData)
         {
-            EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
-            EventQueue.eventQueue.AddEvent(new BuyEndEventData(e.item,e.price));
+            BuyStartEventData e = eventData as BuyStartEventData;
+            if (HasEnoughMoney(e.price))
+            {
+                EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
+                EventQueue.eventQueue.AddEvent(new BuyEndEventData(e.item, e.price));
+            }
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not BuyStartEventData");
         }
     }
 
-    public void OnAddItemToInventory(EventData eventData)
+    public void OnItemBuyEnd(EventData eventData)
     {
-        BuyEndEventData e = eventData as BuyEndEventData;
-        shopModel.myInventory.AddItem(e.item);
-        ChangeMoneyAmount(-e.price);
-        Debug.Log("Item added "+ e.item.name);
-
+        if (eventData is BuyEndEventData)
+        {
+            BuyEndEventData e = eventData as BuyEndEventData;
+            shopModel.myInventory.AddItem(e.item);
+            ChangeMoneyAmount(-e.price);
+            Debug.Log("Item added " + e.item.name);
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not BuyEndEventData");
+        }
     }
 
     public void OnItemSold(EventData eventData)
     {
-        SellEventData e = eventData as SellEventData;
-        shopModel.myInventory.Remove(e.item);
-        ChangeMoneyAmount(e.price);
-        Debug.Log("Item sold " + e.item.name);
-
+        if (eventData is SellEventData)
+        {
+            SellEventData e = eventData as SellEventData;
+            shopModel.myInventory.Remove(e.item);
+            ChangeMoneyAmount(e.price);
+            Debug.Log("Item sold " + e.item.name);
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not SellEventData");
+        }
     }
 
     public void OnItemUpgradeStart(EventData eventData)
     {
-        UpgradeStartEventData e = eventData as UpgradeStartEventData;
-        if (HasEnoughMoney(e.price))
+        if (eventData is UpgradeStartEventData)
         {
-            EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
-            EventQueue.eventQueue.AddEvent(new UpgradeEndEventData(e.item, e.price));
+            UpgradeStartEventData e = eventData as UpgradeStartEventData;
+            if (HasEnoughMoney(e.price))
+            {
+                EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
+                EventQueue.eventQueue.AddEvent(new UpgradeEndEventData(e.item, e.price));
+            }
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not UpgradeStartEventData");
         }
     }
 
     public void OnItemUpgradeEnd(EventData eventData)
     {
-        UpgradeEndEventData e = eventData as UpgradeEndEventData;
-        if(e.item is IUpgradeable)
+        if (eventData is UpgradeEndEventData)
         {
-            IUpgradeable u = e.item as IUpgradeable;
-            u.Upgrade();
+            UpgradeEndEventData e = eventData as UpgradeEndEventData;
+            if (e.item is IUpgradeable)
+            {
+                IUpgradeable u = e.item as IUpgradeable;
+                u.Upgrade();
+            }
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not UpgradeEndEventData");
         }
     }
 }

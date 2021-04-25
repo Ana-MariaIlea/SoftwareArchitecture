@@ -41,7 +41,7 @@ public class EventQueue : MonoBehaviour
         }
         else
         {
-            Debug.Log("Event type " + eventType.ToString() + " doesn't exist in the dictionary");
+            throw new ArgumentOutOfRangeException("eventType.eventType", "EventType is not in the dictionary");
         }
     }
 
@@ -66,7 +66,7 @@ public class EventQueue : MonoBehaviour
             }
             else
             {
-                Debug.Log("Event type " + data.eventType.ToString() + " doesn't exist in the dictionary");
+                throw new ArgumentOutOfRangeException("data.eventType", "EventType is not in the dictionary");
             }
 
             eventList.Remove(data);

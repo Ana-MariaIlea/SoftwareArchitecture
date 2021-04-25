@@ -45,9 +45,14 @@ public abstract class ShopModel
     //Attempts to select the item, specified by 'index', fails silently
     public void SelectItemByIndex(int index)
     {
+
         if (index >= 0 && index < myInventory.GetItemCount())
         {
             selectedItemIndex = index;
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("index","Index is out of range");
         }
     }
 
@@ -55,7 +60,6 @@ public abstract class ShopModel
     //------------------------------------------------------------------------------------------------------------------------
     //                                                  SelectItem(Item item)
     //------------------------------------------------------------------------------------------------------------------------
-    //Attempts to select the given item, fails silently
     public void SelectItem(MyItem item)
     {
         if (item != null)

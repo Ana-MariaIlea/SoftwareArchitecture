@@ -13,7 +13,8 @@ public enum EventType
     LOADPLAYERINV,
     LOADPLAYERUPGRADEINVENTORY,
     GRIDSCREENCHANGE,
-    STARTGAME
+    STARTGAME,
+    UNITTESTS
 }
 public class EventData 
 {
