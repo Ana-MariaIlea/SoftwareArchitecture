@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class WeaponItemFactory : ItemAbstractFactory
 {
-    int chanceForArmor = 30;
-    int chanceForWeapon = 60;
 
     public WeaponItemFactory() { }
     public override MyItem MakeItem()

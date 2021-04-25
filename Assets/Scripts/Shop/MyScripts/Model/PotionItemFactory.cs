@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PotionItemFactory : ItemAbstractFactory
 {
-    int chanceForArmor = 30;
-    int chanceForWeapon = 60;
 
     public PotionItemFactory() { }
     public override MyItem MakeItem()
