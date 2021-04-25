@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        shopModel = new SellModel(2f, 5, 500); //Right now use magic values to set up the shop
-        shopUpgradeModel = new UpgradeModel(2f, 5, 500); //Right now use magic values to set up the shop
+        shopModel = new SellModel(2f, 7, 500); //Right now use magic values to set up the shop
+        shopUpgradeModel = new UpgradeModel(2f, 7, 500); //Right now use magic values to set up the shop
         shopUpgradeModel.myInventory = shopModel.myInventory;
         EventQueue.eventQueue.AddEvent(new LoadPlayerInventory(shopModel));
         EventQueue.eventQueue.AddEvent(new LoadPlayerUpgradeInventoryEventData(shopUpgradeModel));
@@ -29,10 +29,6 @@ public class Player : MonoBehaviour
         EventQueue.eventQueue.Subscribe(EventType.UPGRADESTART, OnItemUpgradeStart);
         EventQueue.eventQueue.Subscribe(EventType.UPGRADEEND, OnItemUpgradeEnd);
 
-        for (int i = 0; i < shopModel.myInventory.GetItemCount(); i++)
-        {
-            Debug.Log("Player inventory, index " + i + " " +shopModel.myInventory.GetItemByIndex(i).type);
-        }
     }
 
     public void ChangeMoneyAmount(int amount)

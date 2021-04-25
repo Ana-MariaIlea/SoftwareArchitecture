@@ -15,10 +15,17 @@ public class ShopListBuyView : ShopListView
 
     public override void OnShowInvetory(EventData eventData)
     {
-        LoadShopInventory e = eventData as LoadShopInventory;
+        if (eventData is LoadShopInventory)
+        {
+            LoadShopInventory e = eventData as LoadShopInventory;
 
-        shopModel = e.model;
-        shopController.Initialize(shopModel);
-        RepopulateItemIconView();
+            shopModel = e.model;
+            shopController.Initialize(shopModel);
+            RepopulateItemIconView();
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not LoadShopInventory");
+        }
     }
 }

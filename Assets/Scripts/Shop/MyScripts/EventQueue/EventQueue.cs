@@ -62,7 +62,6 @@ public class EventQueue : MonoBehaviour
             if (subscriberDictionary.ContainsKey(data.eventType))
             {
                 subscriberDictionary[data.eventType]?.Invoke(data);
-                Debug.Log("Invoke "+ data.eventType);
             }
             else
             {

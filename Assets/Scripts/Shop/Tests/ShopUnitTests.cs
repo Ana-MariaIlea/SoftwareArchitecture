@@ -50,8 +50,8 @@ namespace Tests
 
             //Active the gridBuyView game object to initialize the class, if we don't do this 'void Start()' won't be called
             //You should active all the game objects that are involved in the test before testing the functions from their components
-            //player.gameObject.SetActive(true);
-           // shop.gameObject.SetActive(true);
+            player.gameObject.SetActive(true);
+            shop.gameObject.SetActive(true);
 
             gridBuyView.gameObject.SetActive(true);
             gridSellView.gameObject.SetActive(true);
@@ -235,6 +235,10 @@ namespace Tests
             });
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        //                                                      gridBuyView tests
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
         //This case tests if the grid buy view displays the correct amount of Items
         [UnityTest]
         public IEnumerator ShopGridBuyViewDisplaysCorrectAmountOfItems()
@@ -252,11 +256,26 @@ namespace Tests
             Assert.AreEqual(gridBuyView.ShopModel.myInventory.GetItemCount(), itemCount, "The generated item count is not equal to shopModel's itemCount");
         }
 
+        [UnityTest]
+        public IEnumerator ShopGridBuyViewThrowsExceptionsWhenOnLoadInventoryCalledWithWrongEventType()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                gridBuyView.OnShowInvetory(new EventData(EventType.UNITTESTS));
+            });
+        }
+
         //This case tests if the buyModel can throw an ArgumentOutOfRangeException when it's asked to select an item by a negative
         //index. Incorrect indexes can be generated from bugs in views or controllers, throwing the correct type of exceptions is
         //better than failing silently for debugging. Your unit tests should cover exception handlings
         [UnityTest]
-        public IEnumerator ShopModelThrowsExceptionsWhenSelectingNegativeIndex()
+        public IEnumerator GridBuyViewShopModelThrowsExceptionsWhenSelectingNegativeIndex()
         {
             //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
             yield return null;
@@ -267,6 +286,276 @@ namespace Tests
             Assert.Throws<System.ArgumentOutOfRangeException>(delegate
             {
                 gridBuyView.ShopModel.SelectItemByIndex(-1);
+            });
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        //                                                      gridSellView tests
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
+        //This case tests if the grid buy view displays the correct amount of Items
+        [UnityTest]
+        public IEnumerator ShopGridSellViewDisplaysCorrectAmountOfItems()
+        {
+            yield return null; //yield return null skips one frame, waits for the Unity scene to load
+
+            //Now that the scene is loaded and the gridBuyView game object was activated in SetupTests(), we can use GameObject.Find
+            //to find the game object we want to test
+            GameObject gridItemsPanel = GameObject.Find("GridItemsPanel");
+
+            yield return new WaitForEndOfFrame();//Since we are testing how many items are displayed, we should use WaitForEndOfFrame to wait until the end of the frame,
+                                                 //so that the view finished updating and rendering everything 
+
+            int itemCount = gridItemsPanel.transform.childCount;
+            Assert.AreEqual(gridSellView.ShopModel.myInventory.GetItemCount(), itemCount, "The generated item count is not equal to shopModel's itemCount");
+        }
+
+        [UnityTest]
+        public IEnumerator GridSellViewShopGridBuyViewThrowsExceptionsWhenOnLoadInventoryCalledWithWrongEventType()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                gridSellView.OnShowInvetory(new EventData(EventType.UNITTESTS));
+            });
+        }
+
+        //This case tests if the buyModel can throw an ArgumentOutOfRangeException when it's asked to select an item by a negative
+        //index. Incorrect indexes can be generated from bugs in views or controllers, throwing the correct type of exceptions is
+        //better than failing silently for debugging. Your unit tests should cover exception handlings
+        [UnityTest]
+        public IEnumerator GridSellViewShopModelThrowsExceptionsWhenSelectingNegativeIndex()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                gridSellView.ShopModel.SelectItemByIndex(-1);
+            });
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        //                                                      gridUpgradeView tests
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
+        //This case tests if the grid buy view displays the correct amount of Items
+        [UnityTest]
+        public IEnumerator ShopGridUpgradelViewDisplaysCorrectAmountOfItems()
+        {
+            yield return null; //yield return null skips one frame, waits for the Unity scene to load
+
+            //Now that the scene is loaded and the gridBuyView game object was activated in SetupTests(), we can use GameObject.Find
+            //to find the game object we want to test
+            GameObject gridItemsPanel = GameObject.Find("GridItemsPanel");
+
+            yield return new WaitForEndOfFrame();//Since we are testing how many items are displayed, we should use WaitForEndOfFrame to wait until the end of the frame,
+                                                 //so that the view finished updating and rendering everything 
+
+            int itemCount = gridItemsPanel.transform.childCount;
+            Assert.AreEqual(gridUpgradeView.ShopModel.myInventory.GetItemCount(), itemCount, "The generated item count is not equal to shopModel's itemCount");
+        }
+
+        [UnityTest]
+        public IEnumerator GridSellViewShopGridUpgradeViewThrowsExceptionsWhenOnLoadInventoryCalledWithWrongEventType()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                gridUpgradeView.OnShowInvetory(new EventData(EventType.UNITTESTS));
+            });
+        }
+
+        //This case tests if the buyModel can throw an ArgumentOutOfRangeException when it's asked to select an item by a negative
+        //index. Incorrect indexes can be generated from bugs in views or controllers, throwing the correct type of exceptions is
+        //better than failing silently for debugging. Your unit tests should cover exception handlings
+        [UnityTest]
+        public IEnumerator GridUpgradeViewShopModelThrowsExceptionsWhenSelectingNegativeIndex()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                gridUpgradeView.ShopModel.SelectItemByIndex(-1);
+            });
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        //                                                      listBuyView tests
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
+        //This case tests if the grid buy view displays the correct amount of Items
+        [UnityTest]
+        public IEnumerator ListGridBuyViewDisplaysCorrectAmountOfItems()
+        {
+            yield return null; //yield return null skips one frame, waits for the Unity scene to load
+
+            //Now that the scene is loaded and the gridBuyView game object was activated in SetupTests(), we can use GameObject.Find
+            //to find the game object we want to test
+            GameObject gridItemsPanel = GameObject.Find("ListItemsPanel");
+
+            yield return new WaitForEndOfFrame();//Since we are testing how many items are displayed, we should use WaitForEndOfFrame to wait until the end of the frame,
+                                                 //so that the view finished updating and rendering everything 
+
+            int itemCount = gridItemsPanel.transform.childCount;
+            Assert.AreEqual(listBuyView.ShopModel.myInventory.GetItemCount(), itemCount, "The generated item count is not equal to shopModel's itemCount");
+        }
+
+        [UnityTest]
+        public IEnumerator ShopListBuyViewThrowsExceptionsWhenOnLoadInventoryCalledWithWrongEventType()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                listBuyView.OnShowInvetory(new EventData(EventType.UNITTESTS));
+            });
+        }
+
+        //This case tests if the buyModel can throw an ArgumentOutOfRangeException when it's asked to select an item by a negative
+        //index. Incorrect indexes can be generated from bugs in views or controllers, throwing the correct type of exceptions is
+        //better than failing silently for debugging. Your unit tests should cover exception handlings
+        [UnityTest]
+        public IEnumerator GridListViewShopModelThrowsExceptionsWhenSelectingNegativeIndex()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                listBuyView.ShopModel.SelectItemByIndex(-1);
+            });
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        //                                                      listSellView tests
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
+        //This case tests if the grid buy view displays the correct amount of Items
+        [UnityTest]
+        public IEnumerator ShopListSellViewDisplaysCorrectAmountOfItems()
+        {
+            yield return null; //yield return null skips one frame, waits for the Unity scene to load
+
+            //Now that the scene is loaded and the gridBuyView game object was activated in SetupTests(), we can use GameObject.Find
+            //to find the game object we want to test
+            GameObject gridItemsPanel = GameObject.Find("ListItemsPanel");
+
+            yield return new WaitForEndOfFrame();//Since we are testing how many items are displayed, we should use WaitForEndOfFrame to wait until the end of the frame,
+                                                 //so that the view finished updating and rendering everything 
+
+            int itemCount = gridItemsPanel.transform.childCount;
+            Assert.AreEqual(listSellView.ShopModel.myInventory.GetItemCount(), itemCount, "The generated item count is not equal to shopModel's itemCount");
+        }
+
+        [UnityTest]
+        public IEnumerator ListSellViewShopGridBuyViewThrowsExceptionsWhenOnLoadInventoryCalledWithWrongEventType()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                listSellView.OnShowInvetory(new EventData(EventType.UNITTESTS));
+            });
+        }
+
+        //This case tests if the buyModel can throw an ArgumentOutOfRangeException when it's asked to select an item by a negative
+        //index. Incorrect indexes can be generated from bugs in views or controllers, throwing the correct type of exceptions is
+        //better than failing silently for debugging. Your unit tests should cover exception handlings
+        [UnityTest]
+        public IEnumerator ListSellViewShopModelThrowsExceptionsWhenSelectingNegativeIndex()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                listSellView.ShopModel.SelectItemByIndex(-1);
+            });
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        //                                                      listUpgradeView tests
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
+        //This case tests if the grid buy view displays the correct amount of Items
+        [UnityTest]
+        public IEnumerator ShopListUpgradelViewDisplaysCorrectAmountOfItems()
+        {
+            yield return null; //yield return null skips one frame, waits for the Unity scene to load
+
+            //Now that the scene is loaded and the gridBuyView game object was activated in SetupTests(), we can use GameObject.Find
+            //to find the game object we want to test
+            GameObject gridItemsPanel = GameObject.Find("ListItemsPanel");
+
+            yield return new WaitForEndOfFrame();//Since we are testing how many items are displayed, we should use WaitForEndOfFrame to wait until the end of the frame,
+                                                 //so that the view finished updating and rendering everything 
+
+            int itemCount = gridItemsPanel.transform.childCount;
+            Assert.AreEqual(listUpgradeView.ShopModel.myInventory.GetItemCount(), itemCount, "The generated item count is not equal to shopModel's itemCount");
+        }
+
+        [UnityTest]
+        public IEnumerator ListSellViewShopGridUpgradeViewThrowsExceptionsWhenOnLoadInventoryCalledWithWrongEventType()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                listUpgradeView.OnShowInvetory(new EventData(EventType.UNITTESTS));
+            });
+        }
+
+        //This case tests if the buyModel can throw an ArgumentOutOfRangeException when it's asked to select an item by a negative
+        //index. Incorrect indexes can be generated from bugs in views or controllers, throwing the correct type of exceptions is
+        //better than failing silently for debugging. Your unit tests should cover exception handlings
+        [UnityTest]
+        public IEnumerator ListUpgradeViewShopModelThrowsExceptionsWhenSelectingNegativeIndex()
+        {
+            //yield return null skips one frame, waits for the Unity scene to load and buyModel to be assigned
+            yield return null;
+
+            //Creates a delegate that call gridBuyView.ShopModel.SelectItemByIndex(-1), the test runner will run the function, and
+            //check if an ArgumentOutOfRangeException is thrown, the unit test would fail if no ArgumentOutOfRangeException
+            //was thrown
+            Assert.Throws<System.ArgumentOutOfRangeException>(delegate
+            {
+                listUpgradeView.ShopModel.SelectItemByIndex(-1);
             });
         }
     }

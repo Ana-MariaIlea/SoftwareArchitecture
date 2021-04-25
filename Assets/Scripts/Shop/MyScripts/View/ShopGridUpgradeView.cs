@@ -15,10 +15,17 @@ public class ShopGridUpgradeView : ShopGridView
 
     public override void OnShowInvetory(EventData eventData)
     {
-        LoadPlayerUpgradeInventoryEventData e = eventData as LoadPlayerUpgradeInventoryEventData;
-        shopModel = e.model;
-        shopController.Initialize(shopModel);
-        RepopulateItemIconView();
+        if (eventData is LoadPlayerUpgradeInventoryEventData)
+        {
+            LoadPlayerUpgradeInventoryEventData e = eventData as LoadPlayerUpgradeInventoryEventData;
+            shopModel = e.model;
+            shopController.Initialize(shopModel);
+            RepopulateItemIconView();
+        }
+        else
+        {
+            throw new System.ArgumentOutOfRangeException("eventData", "EventData is not LoadPlayerUpgradeInventoryEventData");
+        }
     }
 
 }

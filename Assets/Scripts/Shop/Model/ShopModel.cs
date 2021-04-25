@@ -35,7 +35,7 @@ public abstract class ShopModel
         }
         else
         {
-            return null;
+            throw new ArgumentOutOfRangeException("selectedItemIndex", "selectedItemIndex is out of range");
         }
     }
 
