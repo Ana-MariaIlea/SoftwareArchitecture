@@ -6,6 +6,9 @@ public class MyInventory
 {
     private List<MyItem> itemList = new List<MyItem>(); //Items in the inventory
     private ItemFactory factory = new ItemFactory();
+    private ArmorItemFactory armorItemFactory = new ArmorItemFactory();
+    private WeaponItemFactory waeponItemFactory = new WeaponItemFactory();
+    private PotionItemFactory potionItemFactory = new PotionItemFactory();
     //Set up the inventory with item count and money
     public MyInventory(int pItemCount)
     {
@@ -18,7 +21,7 @@ public class MyInventory
     //Returns a list with all current items in the shop.
     public List<MyItem> GetItems()
     {
-        return new List<MyItem>(itemList); 
+        return new List<MyItem>(itemList);
     }
 
     //------------------------------------------------------------------------------------------------------------------------
@@ -104,10 +107,26 @@ public class MyInventory
     //------------------------------------------------------------------------------------------------------------------------
     private void PopulateInventory(int itemCount)
     {
-        
+
         for (int index = 0; index < itemCount; index++)
         {
-            MyItem item = factory.MakeItem();
+            int x = UnityEngine.Random.Range(1, 3);
+            MyItem item;// = factory.MakeItem();
+            switch (x)
+            {
+                case 1:
+                    item = armorItemFactory.MakeItem();
+                    break;
+                case 2:
+                    item = waeponItemFactory.MakeItem();
+                    break;
+                case 3:
+                    item = potionItemFactory.MakeItem();
+                    break;
+                default:
+                    item = factory.MakeItem();
+                    break;
+            }
             itemList.Add(item);
         }
     }

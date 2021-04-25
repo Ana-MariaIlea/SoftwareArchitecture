@@ -70,16 +70,16 @@ public class ListViewItemContainer : MonoBehaviour, IItemContainer
             case TypeOfItem.Armor:
                 categoryRow.text = "Armor";
                 ArmorItem a = item as ArmorItem;
-                atributes.text = "Defence " + a.ElementalDamageReduction;
+                atributes.text = "Defence Physical " + a.PhysicalDamageReduction + "\nDefence Elemental " + a.ElementalDamageReduction + "\nStamina increase " + a.StaminIncrease;
                 break;
             case TypeOfItem.Weapon:
                 WeaponItem w = item as WeaponItem;
-                atributes.text = "Block damage " + w.DamageReducedWhenBock;
+                atributes.text = "Physical Attack " + w.PhysicalAttack + "\nElemental Attack " + w.ElementalAttack + "\nDamage Reduced When Bock " + w.DamageReducedWhenBock;
                 categoryRow.text = "Weapon";
                 break;
             case TypeOfItem.Potion:
                 PotionItem p = item as PotionItem;
-                atributes.text = "Health " + p.HealthChange;
+                atributes.text = "Health Change " + p.HealthChange + "\nStamina Change " + p.StaminaChange + "\nDuration " + p.EffectTime;
                 categoryRow.text = "Potion";
                 break;
         }
