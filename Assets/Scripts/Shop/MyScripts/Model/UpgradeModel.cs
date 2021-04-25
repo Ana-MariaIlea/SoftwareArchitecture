@@ -15,7 +15,11 @@ public class UpgradeModel : BuyModel
 
     public override void ConfirmSelectedItem()
     {
-        EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
-        EventQueue.eventQueue.AddEvent(new UpgradeStartEventData(myInventory.GetItemByIndex(selectedItemIndex), myInventory.GetItemByIndex(selectedItemIndex).price));
+        if (myInventory.GetItemByIndex(selectedItemIndex) is IUpgradeable)
+        {
+            EventQueue.eventQueue.AddEvent(new ScreenGridChangeEventData());
+            IUpgradeable i = myInventory.GetItemByIndex(selectedItemIndex) as IUpgradeable;
+            EventQueue.eventQueue.AddEvent(new UpgradeStartEventData(myInventory.GetItemByIndex(selectedItemIndex), i.UpgradePrice));
+        }
     }
 }

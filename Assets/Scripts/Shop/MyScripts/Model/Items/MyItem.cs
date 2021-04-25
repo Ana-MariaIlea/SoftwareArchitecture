@@ -28,7 +28,7 @@ public class MyItem : IBreakable
         this.price = pbasePrice;
     }
 
-    public int Durability => throw new System.NotImplementedException();
+    public int Durability => duralbility;
 
     public void Deteriorate()
     {
