@@ -110,8 +110,8 @@ public class MyInventory
 
         for (int index = 0; index < itemCount; index++)
         {
-            int x = UnityEngine.Random.Range(1, 3);
             MyItem item;// = factory.MakeItem();
+            int x = UnityEngine.Random.Range(1, 3);
             switch (x)
             {
                 case 1:
