@@ -35,7 +35,6 @@ public class MouseController : ShopController, IPointerClickHandler
     {
         //Check if the mouse clicked on an item container. 
         IItemContainer itemContainer = eventData.pointerCurrentRaycast.gameObject.GetComponent<IItemContainer>();
-
         //If the game object that was clicked on has a component which implements the IItemContainer interface, itemContainer
         //will be assigned with that component, otherwise itemContainer would be null, meaning the mouse didn't click on any
         //item containers in the view. If you are clicking on the item container but it still returns null, check to see if there
