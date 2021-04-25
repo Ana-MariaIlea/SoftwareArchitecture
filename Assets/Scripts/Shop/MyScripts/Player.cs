@@ -60,7 +60,6 @@ public class Player : MonoBehaviour
     {
         BuyEndEventData e = eventData as BuyEndEventData;
         shopModel.myInventory.AddItem(e.item);
-        shopUpgradeModel.myInventory.AddItem(e.item);
         ChangeMoneyAmount(-e.price);
         Debug.Log("Item added "+ e.item.name);
 
@@ -70,7 +69,6 @@ public class Player : MonoBehaviour
     {
         SellEventData e = eventData as SellEventData;
         shopModel.myInventory.Remove(e.item);
-        shopUpgradeModel.myInventory.Remove(e.item);
         ChangeMoneyAmount(e.price);
         Debug.Log("Item sold " + e.item.name);
 
